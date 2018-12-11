@@ -1,3 +1,3 @@
-# acr-cleanup
 Azure container registry image cleaner via az-cli
 
+$ ./acr-cleanup acr-name1 acr-name2 ...
