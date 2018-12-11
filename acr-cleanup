@@ -1,0 +1,18 @@
+#!/bin/bash
+
+
+if [[ $# -lt 1 ]]; then
+ exit 1
+fi
+
+COUNT=3
+
+for acr in $*; do
+  REPOSITORIES=$(az acr repository list -n $acr -otsv)
+  for REPO in $REPOSITORIES; do
+    OLD_IMAGES=$(az acr repository show-manifests --name $acr --repository $REPO --orderby time_asc -o tsv | head -n -$COUNT)
+    for OLD_IMAGE in $OLD_IMAGES; do
+       az acr repository delete --name $acr --image $REPO@$OLD_IMAGE --yes
+    done
+  done
+done
