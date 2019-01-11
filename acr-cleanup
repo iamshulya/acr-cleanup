@@ -7,12 +7,12 @@ fi
 # Number of newest images in repository that will not be deleted
 COUNT=3
 
-for acr in $*; do
-  REPOSITORIES=$(az acr repository list -n $acr -otsv)
+for ACR in $*; do
+  REPOSITORIES=$(az acr repository list -n $ACR -otsv)
   for REPO in $REPOSITORIES; do
-    OLD_IMAGES=$(az acr repository show-manifests --name $acr --repository $REPO --orderby time_asc -o tsv | head -n -$COUNT)
+    OLD_IMAGES=$(az acr repository show-manifests --name $ACR --repository $REPO --orderby time_asc -o tsv | head -n -$COUNT)
     for OLD_IMAGE in $OLD_IMAGES; do
-       az acr repository delete --name $acr --image $REPO@$OLD_IMAGE --yes
+       az acr repository delete --name $ACR --image $REPO@$OLD_IMAGE --yes
     done
   done
 done
